@@ -52,38 +52,27 @@ public class CloseString {
             return false;
         }
 
-        Map<Character, Integer> hashMap = new HashMap<>();
-        Map<Character, Integer> hashMap2 = new HashMap<>();
+        // alphabet length is 26
+        int[] list1 = new int[26];
+        int[] list2 = new int[26];
 
         for (int i = 0; i < word1.length(); i++) {
-            if (hashMap.containsKey(word1.charAt(i))) {
-                int tempIndex = hashMap.get(word1.charAt(i));
-                hashMap.put(word1.charAt(i), ++tempIndex);
-
-            } else {
-                hashMap.put(word1.charAt(i), 0);
-            }
-
-            if (hashMap2.containsKey(word2.charAt(i))) {
-                int tempIndex = hashMap2.get(word2.charAt(i));
-                hashMap2.put(word2.charAt(i), ++tempIndex);
-
-            } else {
-                hashMap2.put(word2.charAt(i), 0);
-            }
+            list1[word1.charAt(i) - 'a']++;
+            list2[word2.charAt(i) - 'a']++;
         }
-        if (!hashMap2.keySet().equals(hashMap.keySet())) {
-            return false;
-        }
-        List<Integer> list1 = hashMap.values().stream().sorted().toList();
-        List<Integer> list2 = hashMap2.values().stream().sorted().toList();
-
-        for (int i = 0; i < list1.size(); i++) {
-
-            if (!hashMap2.containsValue(list1.get(i))) {
+        for (int i = 0; i < 26; i++) {
+            if ((list1[i] != list2[i]) && (list1[i] == 0 || list2[i] == 0)) {
                 return false;
             }
         }
+        Arrays.sort(list1);
+        Arrays.sort(list2);
+        for (int i = 0; i < 26; i++) {
+            if (list1[i] != list2[i]) {
+                return false;
+            }
+        }
+
 
         return true;
     }
